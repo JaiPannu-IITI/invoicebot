@@ -20,7 +20,7 @@ async function pdfInvoice(data, pdfPath) {
     </head>
     <body>
     <div style=" display: flex ; justify-content: flex-start; gap: 30px ; padding: 10px; align-items: center;">
-        <img src="https://logo.png" alt="Company Logo" style="width: 50px; height: auto;">
+        <img src="https://github.com/user-attachments/assets/09be03c9-b0ae-42e7-90e8-d3b6c02ba61e" alt="Company Logo" style="width: 50px; height: auto;">
         <h1>${companyName}</h1>
     </div>
     
