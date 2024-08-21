@@ -18,7 +18,7 @@ via WhatsApp.
         npm install
    </div>
 
-4. Create .env with following details:
+3. Create .env with following details:
  <div>
 
          TWILIO_ACCOUNT_SID= [account_sid]        
@@ -27,6 +27,16 @@ via WhatsApp.
          PORT=3000
  </div>
 
- 5.
+ 4. Run ngrok
+<div>
+
+        ngrok http 3000
+</div>
+
+5. Configure twilio sandbox to post incoming message to
+<div>
+
+        https://[ngrok].ngrok-free.app/whatsapp
+</div>
 
 <img width="200px" alt="image" src="https://github.com/user-attachments/assets/1fa4c1c7-55c8-4560-b785-ee00a2db70da">
