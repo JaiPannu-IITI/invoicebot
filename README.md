@@ -1,5 +1,5 @@
-<div style="display: flex;">
-        <div><img src="https://github.com/user-attachments/assets/09be03c9-b0ae-42e7-90e8-d3b6c02ba61e" alt="Company Logo" style="width: 400px;"></div>
+<div style="display: flex; justify-content: center; width: 100%; text-align:center;">
+        <div><img src="https://github.com/user-attachments/assets/09be03c9-b0ae-42e7-90e8-d3b6c02ba61e" alt="Company Logo" style="width: 200px;"></div>
         <h1>TaxDownCo.</h1>
 </div>
 
