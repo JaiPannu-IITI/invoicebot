@@ -46,11 +46,11 @@ via WhatsApp.
 
 <h1>Previews:</h1>
 
-<div style="width: 300px ; height: auto;">
+Initiating:
         
 ![image](https://github.com/user-attachments/assets/00ea7ac2-e234-4d8e-9e23-1864c3a1e452)
 
-</div>
+1. Create New Invoice
 
 ![image](https://github.com/user-attachments/assets/30bae91c-6745-4c77-9639-9a5470d86611)
 
@@ -61,6 +61,8 @@ via WhatsApp.
 Generated invoice:
 
 ![image](https://github.com/user-attachments/assets/9f3735b4-f452-44ac-a058-c0aa567f2004)
+
+2. View Last Invoice
 
 ![image](https://github.com/user-attachments/assets/c0839784-efb8-4311-bb91-390905c58656)
 
