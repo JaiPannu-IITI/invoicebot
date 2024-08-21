@@ -42,3 +42,16 @@ via WhatsApp.
 6. Scan the QR code and send the default connection message to sandbox before starting to connect to bot
 
 <img width="200px" alt="image" src="https://github.com/user-attachments/assets/1fa4c1c7-55c8-4560-b785-ee00a2db70da">
+
+
+<h1>Previews:</h1>
+
+![image](https://github.com/user-attachments/assets/00ea7ac2-e234-4d8e-9e23-1864c3a1e452)
+
+
+
+
+![image](https://github.com/user-attachments/assets/9f3735b4-f452-44ac-a058-c0aa567f2004)
+
+![image](https://github.com/user-attachments/assets/c0839784-efb8-4311-bb91-390905c58656)
+
