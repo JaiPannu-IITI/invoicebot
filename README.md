@@ -46,7 +46,7 @@ via WhatsApp.
 
 <h1>Previews:</h1>
 
-1. Create New Invoice
+<h2>1. Create New Invoice</h2>
         
 ![image](https://github.com/user-attachments/assets/00ea7ac2-e234-4d8e-9e23-1864c3a1e452)
 
@@ -56,15 +56,15 @@ via WhatsApp.
 
 ![image](https://github.com/user-attachments/assets/7c1ad024-5a45-4109-b636-d0fc63ab5288)
 
-Generated invoice:
+<h2>Generated invoice:</h2>
 
 ![image](https://github.com/user-attachments/assets/9f3735b4-f452-44ac-a058-c0aa567f2004)
 
-2. View Last Invoice
+<h2>2. View Last Invoice</h2>
 
 ![image](https://github.com/user-attachments/assets/c0839784-efb8-4311-bb91-390905c58656)
 
-Last generated invoice:
+<h2>Last generated invoice:</h2>
 
 ![image](https://github.com/user-attachments/assets/9f3735b4-f452-44ac-a058-c0aa567f2004)
 
