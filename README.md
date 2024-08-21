@@ -39,4 +39,6 @@ via WhatsApp.
         https://[ngrok].ngrok-free.app/whatsapp
 </div>
 
+6. Scan the QR code and send the default connection message to sandbox before starting to connect to bot
+
 <img width="200px" alt="image" src="https://github.com/user-attachments/assets/1fa4c1c7-55c8-4560-b785-ee00a2db70da">
