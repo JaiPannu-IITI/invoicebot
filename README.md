@@ -8,4 +8,16 @@ tax invoices for sales transactions. The bot will guide the user through enterin
 details and generate a PDF invoice that includes tax information, which can be shared with customers
 via WhatsApp.
 
+<h2>Setup Bot</h2>
+1. Clone repository
+2. npm install
+3. Create .env with following details:
+ <div>
+
+         TWILIO_ACCOUNT_SID= [account_sid]        
+         TWILIO_AUTH_TOKEN= [auth_token]
+         TWILIO_WHATSAPP_NUMBER=whatsapp: [botwhatsappnumber]
+         PORT=3000
+ </div>
+
 <img width="200px" alt="image" src="https://github.com/user-attachments/assets/1fa4c1c7-55c8-4560-b785-ee00a2db70da">
