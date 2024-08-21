@@ -16,6 +16,7 @@ const data = {
   item: "",
   quantity: 0,
   price: 0,
+  currency: "",
   tax: 0,
   notes: "",
 };
@@ -91,18 +92,20 @@ app.post("/whatsapp", async (req, res) => {
     userProgress[fromNumber] = "quantity";
   } else if (progress === "quantity") {
     data.quantity = parseInt(messageBody, 10);
-    twiml.message(`What is the price per unit or hour?`);
+    twiml.message(`What is the price per unit or hour? (e.g., "$100")`);
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
     userProgress[fromNumber] = "price";
   } else if (progress === "price") {
-    data.price = parseInt(messageBody, 10);
+    data.currency = messageBody[0];
+    data.price = parseInt(messageBody.slice(1), 10);
     twiml.message(`Please enter the applicable tax rate (e.g., 10%).`);
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
     userProgress[fromNumber] = "tax";
   } else if (progress === "tax") {
-    data.tax = parseInt(messageBody, 10);
+    const length = messageBody.length;
+    data.tax = parseInt(messageBody.slice(0, length - 1), 10);
     twiml.message(
       `Please enter any additional notes (optional) or type "none".`
     );
@@ -143,6 +146,7 @@ app.post("/whatsapp", async (req, res) => {
     twiml.message('Please type "Hi" to start conversation');
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
+    userProgress[fromNumber] = "none";
   }
 
   console.log("finished");

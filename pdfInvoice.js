@@ -6,7 +6,7 @@ async function pdfInvoice(data, pdfPath) {
   // Define the HTML content for the invoice
   const companyName = "TaxDown Co.";
 
-  const htmlContent = `
+  let htmlContent = `
      <html>
     <head>
         <title>Tax Invoice</title>
@@ -31,16 +31,27 @@ async function pdfInvoice(data, pdfPath) {
                     <td style="width:20%; border: none;">Customer Name</td>
                     <td style="width:5%; border: none;">:</td>
                     <td style="width:75%; border: none;">${data.name}</td>
-                    
+                
                     
                 </tr>
-                <tr>
+                
+        
+  `;
+
+  if (data.address != "none") {
+    htmlContent += `
+  
+  <tr>
                     <td style="width:20%; border: none;">Customer Address</td>
                     <td style="width:5%; border: none;">:</td>
                     <td style="width:75%; border: none;">${data.address}</td>
                     
                 </tr>
-        </table>
+  
+  `;
+  }
+  htmlContent += `
+  </table>
        
         <table>
             <thead>
@@ -56,7 +67,7 @@ async function pdfInvoice(data, pdfPath) {
                 <tr>
                     <td>${data.quantity}</td>
                     <td>${data.item}</td>
-                    <td>${data.price}</td>
+                    <td>${data.currency}${data.price}</td>
                 
                 </tr>
                 <tr>
@@ -65,33 +76,50 @@ async function pdfInvoice(data, pdfPath) {
 
                  <tr>
                     <td colspan = "2">Subtotal</td>
-                    <td >${data.quantity * data.price}</td>
+                    <td >${data.currency}${data.quantity * data.price}</td>
                    
                     
                 </tr>
                
                 <tr>
-                    <td colspan = "2">Tax</td>
-                    <td >${(data.quantity * data.price * data.tax) / 100}</td>
+                    <td colspan = "2">Tax (${data.tax}%)</td>
+                    <td >${data.currency}${
+    (data.quantity * data.price * data.tax) / 100
+  }</td>
                 </tr>
                
                  <tr>
                   
                     <td colspan = "2" style="font-weight: bold">Total Amount Due</td>
-                    <td style="font-weight: bold">${
-                      (data.quantity * data.price * data.tax) / 100 +
-                      data.quantity * data.price
-                    }</td>
+                    <td style="font-weight: bold">${data.currency}${
+    (data.quantity * data.price * data.tax) / 100 + data.quantity * data.price
+  }</td>
                 </tr>
                
                
             </tbody>
         </table>
        
-        <p style="margin-top:40px;">Note: ${data.notes}</p>
-    </body>
-    </html>
-  `;
+        
+   
+    `;
+
+  if (data.notes != "none") {
+    htmlContent += `
+      
+      <p style="margin-top:40px;">Note: ${data.notes}</p>
+      
+      `;
+  }
+
+  htmlContent += `
+      
+       </body>
+         </html>
+      
+      
+      
+      `;
 
   // Set the path for the output PDF
   const outputPath = path.join(__dirname, "invoice.pdf");
