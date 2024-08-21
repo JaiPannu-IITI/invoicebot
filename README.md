@@ -1,5 +1,5 @@
-<img src="https://github.com/user-attachments/assets/09be03c9-b0ae-42e7-90e8-d3b6c02ba61e" alt="Company Logo" style="width: 100px; height: auto; display: inline;">
 <div>
+        <div><img src="https://github.com/user-attachments/assets/09be03c9-b0ae-42e7-90e8-d3b6c02ba61e" alt="Company Logo" style="width: 100px; height: auto; display: inline;"></div>
         <h1>TaxDownCo.</h1>
 </div>
 
