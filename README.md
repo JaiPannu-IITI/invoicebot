@@ -10,8 +10,15 @@ via WhatsApp.
 
 <h2>Setup Bot</h2>
 1. Clone repository
-2. npm install
-3. Create .env with following details:
+
+2. Install modules
+
+   <div>
+
+        npm install
+   </div>
+
+4. Create .env with following details:
  <div>
 
          TWILIO_ACCOUNT_SID= [account_sid]        
@@ -19,5 +26,7 @@ via WhatsApp.
          TWILIO_WHATSAPP_NUMBER=whatsapp: [botwhatsappnumber]
          PORT=3000
  </div>
+
+ 5.
 
 <img width="200px" alt="image" src="https://github.com/user-attachments/assets/1fa4c1c7-55c8-4560-b785-ee00a2db70da">
