@@ -46,8 +46,9 @@ via WhatsApp.
 
 <h1>Previews:</h1>
 
+<div style="width: 300px ; height: auto;">
 ![image](https://github.com/user-attachments/assets/00ea7ac2-e234-4d8e-9e23-1864c3a1e452)
-
+</div>
 ![image](https://github.com/user-attachments/assets/30bae91c-6745-4c77-9639-9a5470d86611)
 
 ![image](https://github.com/user-attachments/assets/8362ba1c-8537-4544-8430-768bae70d25d)
