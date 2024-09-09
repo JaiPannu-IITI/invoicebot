@@ -1,16 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { MessagingResponse } = require("twilio").twiml;
-const { practical } = require("./practical");
+const { pdfInvoice } = require("./pdfInvoice");
 const path = require("path");
-const fs = require("fs").promises;
-const svggenerator = require("../texttosvg/loop");
-const extractText = require("../textextraction/local-lembda");
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 require("dotenv").config();
 
 const app = express();
@@ -19,13 +11,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const userProgress = {};
 
 const data = {
-  name: ""
+  name: "",
+  address: "",
+  item: "",
+  quantity: 0,
+  price: 0,
+  currency: "",
+  tax: 0,
+  notes: "",
 };
 
-
+function capitalizeFirstLetter(string) {
+  if (string.length === 0) return string; // Handle empty strings
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 app.post("/whatsapp", async (req, res) => {
-  
   const twiml = new MessagingResponse();
   const messageBody = req.body.Body.trim().toLowerCase();
   const fromNumber = req.body.From;
@@ -40,46 +41,102 @@ app.post("/whatsapp", async (req, res) => {
 
   if (messageBody === "hi" && progress === "none") {
     twiml.message(
-      "Welcome to practical file generator.Please enter text to generate practical file."
+      "Welcome to the Tax Invoice Generator Bot! How can I assist you today? \n 1. Create New Invoice \n 2. View Last Invoice "
     );
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
+    userProgress[fromNumber] = "options";
+  } else if (
+    (messageBody === "1" && progress === "options") ||
+    (messageBody === "create new invoice" && progress === "options")
+  ) {
+    twiml.message("Please enter the customer's name. ");
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
     userProgress[fromNumber] = "name";
-  } else if (progress === "name") {
-    data.name = messageBody;
-    
+  } else if (
+    (messageBody === "2" && progress === "options") ||
+    (messageBody === "view last invoice" && progress === "options")
+  ) {
+    const pdfPath = path.join(__dirname, "invoice.pdf");
+    const message = twiml.message("Here is your last invoice:");
+    message.media(`https://${req.headers.host}/invoice.pdf`);
+
+    twiml.message(`Thank you for using TaxDown Co. Bot`);
     twiml.message(
-      `Generating your practical file.`
+      `Would you like to create a new invoice? Type "Hi" to start a new conversation.`
     );
 
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "none";
+  } else if (progress === "name") {
+    data.name = capitalizeFirstLetter(messageBody);
+    twiml.message(
+      `Please enter the customer's address (optional) or type "none" `
+    );
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "address";
+  } else if (progress === "address") {
+    data.address = messageBody;
+    twiml.message(`Please enter the item description`);
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "description";
+  } else if (progress === "description") {
+    data.item = capitalizeFirstLetter(messageBody);
+    twiml.message(`How many units or hours?`);
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "quantity";
+  } else if (progress === "quantity") {
+    data.quantity = parseInt(messageBody, 10);
+    twiml.message(`What is the price per unit or hour? (e.g., "$100")`);
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "price";
+  } else if (progress === "price") {
+    data.currency = messageBody[0];
+    data.price = parseInt(messageBody.slice(1), 10);
+    twiml.message(`Please enter the applicable tax rate (e.g., 10%).`);
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "tax";
+  } else if (progress === "tax") {
+    const length = messageBody.length;
+    data.tax = parseInt(messageBody.slice(0, length - 1), 10);
+    twiml.message(
+      `Please enter any additional notes (optional) or type "none".`
+    );
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+    userProgress[fromNumber] = "notes";
+  } else if (progress === "notes") {
+    data.notes = messageBody;
+    twiml.message(
+      `Generating your invoice for ${data.name}, ${data.item} at ${data.price} per unit, with a ${data.tax}% tax rate, for ${data.quantity} units.`
+    );
 
+    // userProgress[fromNumber] = "confirm";
+
+    const pdfPath = path.join(__dirname, "invoice.pdf");
     try {
-    
-      await fs.writeFile(
-        path.join(__dirname, "../textextraction/experiment.txt"), 
-        data.name
-      );
-      await extractText();
-      await sleep(10000);
-      await svggenerator();
-      const pdfPath = path.join(__dirname, "practical.pdf");
-      await practical(data, pdfPath);
-      await sleep(10000);
+      await pdfInvoice(data, pdfPath);
     } catch (error) {
-      console.error("Error during file write or text extraction: ", error);
-      twiml.message("Error generating the practical file. Please try again.");
+      console.error("Error generating PDF: ", error);
+      twiml.message("Error generating PDF. Please try again.");
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(twiml.toString());
       return;
     }
 
+    const message = twiml.message("Here is your invoice:");
+    message.media(`https://${req.headers.host}/invoice.pdf`);
 
-    const message = twiml.message("Here is your practical:");
-    message.media(`https://${req.headers.host}/practical.pdf`);
-
-    twiml.message(`Thank you for using Practical file generator!`);
+    twiml.message(`Thank you for using TaxDown Co. Bot`);
     twiml.message(
-      `Would you like to create another practical file? Type "Hi" to start a new conversation.`
+      `Would you like to create another invoice? Type "Hi" to start a new conversation.`
     );
 
     res.writeHead(200, { "Content-Type": "text/xml" });
@@ -96,7 +153,7 @@ app.post("/whatsapp", async (req, res) => {
   console.log("Progress: ", progress);
 });
 
-app.use("/practical.pdf", express.static(path.join(__dirname, "practical.pdf")));
+app.use("/invoice.pdf", express.static(path.join(__dirname, "invoice.pdf")));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
